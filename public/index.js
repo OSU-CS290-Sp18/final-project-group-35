@@ -8,19 +8,22 @@ function randomNumber(){
 var nameContainer = document.getElementsByClassName('name-container');
 var nameContent = document.getElementById('name-show');
 
-function showName(){
+function showName(event){
     var num = randomNumber();
-    nameContent.innerText =  resturants[num].name;
-
+    if (resturants[num].name){
+      nameContent.innerText =  resturants[num].name;
+    }else{
+    nameContent.innerText = "?????";
+    }
     nameContainer[0].style.display = "block";
 }
 
 
 //add name
 
-function addname(){
+function addname(event){
     var name = document.getElementById('name-input').value.trim();
-
+    
     if (name.replace(/(^\s*)|(\s*$)/g, "").length == 0) {
         alert("Name is empty!");
       }
@@ -35,14 +38,20 @@ function addname(){
 
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(requestBody);
+        alert("success");
 
     }
+    document.getElementById('name-input').value = null;
 }
 
 
-window.addEventListener('DOMContentLoaded', function () {
-  var generator = document.getElementById('plate-button');
+//window.addEventListener('DOMContentLoaded', function (event) {
+    var generator = document.getElementById('plate-button');
   generator.addEventListener('click', showName);
 
-  var submitButton = document.getElementById('add-button');
+
+    var submitButton = document.getElementById('add-button');
   submitButton.addEventListener('click', addname);
+
+//});
+
