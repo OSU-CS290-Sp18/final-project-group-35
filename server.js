@@ -15,7 +15,7 @@ var exphbs = require('express-handlebars');
 app.engine('handlebars',exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-var resturants = require('resturants');
+var bodyParser = require('body-parser');
 //var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 /*
@@ -32,13 +32,17 @@ var mongoURL = "mongodb://" +
 var mongoURL = "mongodb://cs290_liuhaol:cs290_liuhaol@classmongo.engr.oregonstate.edu:27017/cs290_liuhaol";
 var mongoDB = null;
 
-app.use(resturants.json());
+app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
 
 app.get('/index.html', function (req, res, next) {
-  res.status(200).render('index');
+  var resturants = mangoDB.collection('resturants');
+
+  res.status(200).render('index',{
+      resturants:resturants
+  });
 });
 
 app.get('/generator.html', function (req, res, next) {
@@ -52,11 +56,11 @@ app.get('/add.html', function (req, res, next) {
   });
 });
 
-/*
+
 app.post('/add/addname', function (req, res, next) {
-  if (req.resturants && req.resturants.name) {
+  if (req.body && req.body.name) {
     var name = {
-      name: req.resturants.name
+      name: req.body.name
     };
     var resturants = mongoDB.collection('resturants');
     resturants.updateOne(
@@ -78,7 +82,7 @@ app.post('/add/addname', function (req, res, next) {
     res.status(400).send("Request needs a JSON body with caption and photoURL.")
   }
 });
-*/
+
 
 
 app.get('/qnas.html', function (req, res, next) {
@@ -90,7 +94,11 @@ app.get('/about.html', function (req, res, next) {
 });
 
 app.get('/', function (req, res, next) {
-  res.status(200).render('index');
+  var resturants = mangoDB.collection('resturants');
+
+  res.status(200).render('index',{
+      resturants:resturants
+  });
 });
 
 app.get('/404.html', function (req, res, next) {

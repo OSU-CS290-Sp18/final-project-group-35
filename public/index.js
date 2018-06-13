@@ -1,21 +1,6 @@
-var resturants = [
-    {
-      "name": "1"
-    },
-    {
-      "name": "2"
-    },
-    {
-      "name": "3"
-    },
-    {
-      "name": "4"
-    },
-    {
-      "name": "5"
-    }
-    
-  ]
+
+
+
 function randomNumber(){
     return Math.floor(Math.random()*5);
 }
@@ -30,11 +15,9 @@ function showName(){
     nameContainer[0].style.display = "block";
 }
 
-var generator = document.getElementById('plate-button');
-generator.addEventListener('click', showName);
 
 //add name
-/*
+
 function addname(){
     var name = document.getElementById('name-input').value.trim();
 
@@ -45,6 +28,21 @@ function addname(){
         var request = new XMLHttpRequest();
         var url = "/add/addname";
         request.open("POST", url);
+
+        var requestBody = JSON.stringify({
+          name: name
+        });
+
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(requestBody);
+
     }
 }
-*/
+
+
+window.addEventListener('DOMContentLoaded', function () {
+  var generator = document.getElementById('plate-button');
+  generator.addEventListener('click', showName);
+
+  var submitButton = document.getElementById('add-button');
+  submitButton.addEventListener('click', addname);
